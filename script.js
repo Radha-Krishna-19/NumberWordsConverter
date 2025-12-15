@@ -46,8 +46,9 @@ function numberToWords(num) {
         return TENS[Math.floor(n / 10)] + ONES[n % 10];
     }
 
-    // Pad to 9 digits CC LL TT H UU (crore, lakh, thousand, hundred, units)
+    // Pad to 9 digits: CC LL TT H UU [web:6][web:21]
     num = ("000000000" + num).slice(-9);
+
     const crore = parseInt(num.slice(0, 2), 10);
     const lakh = parseInt(num.slice(2, 4), 10);
     const thousand = parseInt(num.slice(4, 6), 10);
@@ -112,16 +113,14 @@ function wordsToNumber(words) {
         .trim();
 
     if (!cleaned) return "";
-    const tokens = cleaned.split(" ");
 
+    const tokens = cleaned.split(" ");
     let total = 0;
     let current = 0;
 
     for (const token of tokens) {
         const value = MAP[token];
-        if (value === undefined) {
-            continue; // ignore unknown words instead of crashing
-        }
+        if (value === undefined) continue;
 
         if (value < 100) {
             current += value;
@@ -147,30 +146,28 @@ const wordOutput = document.getElementById("wordOutput");
 function setResult(el, text) {
     if (!text) {
         el.textContent = "Output will appear here…";
-        el.classList.add("result-placeholder");
+        el.classList.add("muted");
     } else {
         el.textContent = text;
-        el.classList.remove("result-placeholder");
+        el.classList.remove("muted");
     }
 }
 
-// initial placeholder
 setResult(numOutput, "");
 setResult(wordOutput, "");
 
-// live behaviour
 numInput.addEventListener("input", () => {
-    const cleaned = numInput.value.replace(/\D/g, "");
-    numInput.value = cleaned;
-    setResult(numOutput, cleaned ? numberToWords(cleaned) : "");
+    const clean = numInput.value.replace(/\D/g, "");
+    numInput.value = clean;
+    setResult(numOutput, clean ? numberToWords(clean) : "");
 });
 
 wordInput.addEventListener("input", () => {
-    const text = wordInput.value;
-    setResult(wordOutput, text ? wordsToNumber(text) : "");
+    const val = wordInput.value;
+    setResult(wordOutput, val ? wordsToNumber(val) : "");
 });
 
-// pre-fill examples for teacher
+// Pre‑fill example for your teacher
 numInput.value = "103234";
 setResult(numOutput, numberToWords("103234"));
 
