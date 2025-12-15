@@ -1,95 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Number & Words Converter</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neon Number & Words Studio</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="background-orbit"></div>
-    <div class="background-orbit orbit-2"></div>
+    <div class="bg-orbit orbit-1"></div>
+    <div class="bg-orbit orbit-2"></div>
+    <div class="bg-orbit orbit-3"></div>
 
-    <main class="center-layout">
-        <section class="glass-card">
+    <main class="shell">
+        <section class="card">
             <header class="hero">
-                <p class="hero-kicker">Indian Numbering System</p>
-                <h1>Number ↔ Words</h1>
-                <p class="hero-sub">
-                    Convert numbers to words and back again with a single keystroke.
-                    Designed for lakh, crore, thousand, and hundred.
+                <div class="hero-pill">INDIAN NUMBERING SYSTEM</div>
+                <h1>Neon Number & Words Studio</h1>
+                <p>
+                    Convert numbers to words and back again in real time with support for crore,
+                    lakh, thousand and hundred.
                 </p>
             </header>
 
-            <div class="two-column">
+            <section class="grid">
                 <!-- Number to Words -->
-                <div class="panel">
-                    <div class="panel-header">
+                <article class="pane">
+                    <div class="pane-header">
                         <h2>Number to Words</h2>
-                        <span class="chip chip-live">LIVE</span>
+                        <span class="badge badge-live">Live</span>
                     </div>
 
                     <label class="field">
                         <span class="field-label">Enter number</span>
-                        <div class="field-input-wrap">
+                        <div class="field-shell">
                             <span class="field-icon">123</span>
                             <input
                                 id="numInput"
                                 type="text"
                                 inputmode="numeric"
                                 autocomplete="off"
-                                placeholder="e.g., 103234"
+                                placeholder="Try 103234 or 99999999"
                                 maxlength="12"
                             />
                         </div>
-                        <span class="field-hint">Supports up to 99,99,99,999 in Indian format.</span>
+                        <span class="field-hint">Only digits · Max 99,99,99,999</span>
                     </label>
 
-                    <div class="result-tile">
-                        <span class="result-badge">Result</span>
+                    <div class="result">
+                        <span class="result-label">Result</span>
                         <p id="numOutput" class="result-text muted">
                             Output will appear here…
                         </p>
                     </div>
-                </div>
+                </article>
 
                 <!-- Words to Number -->
-                <div class="panel">
-                    <div class="panel-header">
+                <article class="pane">
+                    <div class="pane-header">
                         <h2>Words to Number</h2>
-                        <span class="chip chip-accent">Lakh · Crore</span>
+                        <span class="badge badge-accent">Lakh · Crore</span>
                     </div>
 
                     <label class="field">
                         <span class="field-label">Enter words</span>
-                        <div class="field-input-wrap">
+                        <div class="field-shell">
                             <span class="field-icon">Aa</span>
                             <input
                                 id="wordInput"
                                 type="text"
                                 autocomplete="off"
-                                placeholder="e.g., one lakh thirty thousand thirty four"
+                                placeholder="Try one lakh thirty thousand thirty four"
                             />
                         </div>
                         <span class="field-hint">
-                            Use words like crore, lakh, thousand, hundred, twenty, thirty, etc.
+                            Use words like crore, lakh, thousand, hundred, twenty, ninety, etc.
                         </span>
                     </label>
 
-                    <div class="result-tile">
-                        <span class="result-badge">Result</span>
+                    <div class="result">
+                        <span class="result-label">Result</span>
                         <p id="wordOutput" class="result-text muted">
                             Output will appear here…
                         </p>
                     </div>
-                </div>
-            </div>
+                </article>
+            </section>
 
-            <footer class="footer">
+            <footer class="foot">
                 <p>
-                    Hint: Try <span class="mono">103234</span> or
-                    <span class="mono">one lakh thirty thousand thirty four</span> and paste the
-                    result into your assignment document.
+                    Tip: Paste these outputs directly into your assignment document and also share your
+                    GitHub / live link.
                 </p>
             </footer>
         </section>
