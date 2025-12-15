@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number ↔ Words Converter (Indian System)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Real-time Number to Words & Words to Number Converter</h1>
+        
+        <!-- Number to Words Section -->
+        <div class="converter-section">
+            <h2>1. Number to Words</h2>
+            <input type="text" id="numInput" placeholder="Enter number (e.g., 103234)" maxlength="12">
+            <div id="numOutput" class="output"></div>
+        </div>
+
+        <!-- Words to Number Section -->
+        <div class="converter-section">
+            <h2>2. Words to Number</h2>
+            <input type="text" id="wordInput" placeholder="Enter words (e.g., one lakh three thousand two hundred thirty four)" style="text-transform: lowercase;">
+            <div id="wordOutput" class="output"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
