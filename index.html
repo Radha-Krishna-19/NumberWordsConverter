@@ -3,26 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Number ↔ Words Converter (Indian System)</title>
+    <title>Number & Words Converter</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Real-time Number to Words & Words to Number Converter</h1>
-        
-        <!-- Number to Words Section -->
-        <div class="converter-section">
-            <h2>1. Number to Words</h2>
-            <input type="text" id="numInput" placeholder="Enter number (e.g., 103234)" maxlength="12">
-            <div id="numOutput" class="output"></div>
-        </div>
+    <div class="app-shell">
+        <header class="top-bar">
+            <div class="brand">
+                <span class="brand-mark">NW</span>
+                <span class="brand-text">Number & Words Studio</span>
+            </div>
+            <span class="tagline">Indian Numbering System · Real‑time Conversion</span>
+        </header>
 
-        <!-- Words to Number Section -->
-        <div class="converter-section">
-            <h2>2. Words to Number</h2>
-            <input type="text" id="wordInput" placeholder="Enter words (e.g., one lakh three thousand two hundred thirty four)" style="text-transform: lowercase;">
-            <div id="wordOutput" class="output"></div>
-        </div>
+        <main class="main">
+            <section class="panel">
+                <div class="panel-header">
+                    <h1>Number & Word Converter</h1>
+                    <p>Convert instantly between numeric form and words using the Indian system (crore, lakh, thousand, hundred).</p>
+                </div>
+
+                <div class="grid">
+                    <!-- Number to Words -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Number to Words</h2>
+                            <span class="pill">Real time</span>
+                        </div>
+                        <label class="field">
+                            <span class="field-label">Enter number</span>
+                            <input
+                                type="text"
+                                id="numInput"
+                                inputmode="numeric"
+                                autocomplete="off"
+                                placeholder="e.g., 103234"
+                                maxlength="12"
+                            />
+                            <span class="field-hint">Supports up to 99,99,99,999 (Indian system).</span>
+                        </label>
+                        <div class="result">
+                            <span class="result-icon">➜</span>
+                            <span id="numOutput" class="result-text result-placeholder">
+                                Output will appear here…
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Words to Number -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Words to Number</h2>
+                            <span class="pill pill-secondary">Indian format</span>
+                        </div>
+                        <label class="field">
+                            <span class="field-label">Enter words</span>
+                            <input
+                                type="text"
+                                id="wordInput"
+                                autocomplete="off"
+                                placeholder="e.g., one lakh thirty thousand thirty four"
+                            />
+                            <span class="field-hint">
+                                Use words like crore, lakh, thousand, hundred, twenty, thirty, etc.
+                            </span>
+                        </label>
+                        <div class="result">
+                            <span class="result-icon">➜</span>
+                            <span id="wordOutput" class="result-text result-placeholder">
+                                Output will appear here…
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="footer-note">
+                    <p>
+                        Tip: Edit the examples, then copy the outputs into your Word document for submission.
+                    </p>
+                </footer>
+            </section>
+        </main>
     </div>
 
     <script src="script.js"></script>

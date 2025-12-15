@@ -1,72 +1,178 @@
-// Number to Words - Indian Numbering System [web:1]
+// ---------- Number → Words (Indian system) ----------
 function numberToWords(num) {
-    const ones = ["", "One ", "Two ", "Three ", "Four ", "Five ", "Six ", "Seven ", "Eight ", "Nine ", "Ten ", "Eleven ", "Twelve ", "Thirteen ", "Fourteen ", "Fifteen ", "Sixteen ", "Seventeen ", "Eighteen ", "Nineteen "];
-    const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
-    
-    if ((num = num.toString()).length > 12) return "Number too large";
-    
-    num = ("000000000000" + num).substr(-12).match(/^(\d{2})(\d{2})(\d{3})(\d{3})(\d{2})$/);
+    num = num.toString().replace(/\D/g, "");
     if (!num) return "";
-    
-    let str = "";
-    str += num[1] != 0 ? (ones[Number(num[1])] || tens[num[1][0]] + " " + ones[num[1][1]]) + "Crore " : "";
-    str += num[2] != 0 ? (ones[Number(num[2])] || tens[num[2][0]] + " " + ones[num[2][1]]) + "Lakh " : "";
-    str += num[3] != 0 ? (ones[Number(num[3])] || tens[num[3][0]] + " " + ones[num[3][1]]) + "Thousand " : "";
-    str += num[4] != 0 ? ones[Number(num[4])] + "Hundred " : "";
-    str += num[5] != 0 ? (str != "" ? "and " : "") + (ones[Number(num[5])] || tens[num[5][0]] + " " + ones[num[5][1]]) : "";
-    
-    return str.trim();
+    if (num.length > 9) return "Number too large (max 99,99,99,999)";
+
+    const ONES = [
+        "",
+        "One ",
+        "Two ",
+        "Three ",
+        "Four ",
+        "Five ",
+        "Six ",
+        "Seven ",
+        "Eight ",
+        "Nine ",
+        "Ten ",
+        "Eleven ",
+        "Twelve ",
+        "Thirteen ",
+        "Fourteen ",
+        "Fifteen ",
+        "Sixteen ",
+        "Seventeen ",
+        "Eighteen ",
+        "Nineteen "
+    ];
+
+    const TENS = [
+        "",
+        "",
+        "Twenty ",
+        "Thirty ",
+        "Forty ",
+        "Fifty ",
+        "Sixty ",
+        "Seventy ",
+        "Eighty ",
+        "Ninety "
+    ];
+
+    function twoDigitsToWords(n) {
+        if (n === 0) return "";
+        if (n < 20) return ONES[n];
+        return TENS[Math.floor(n / 10)] + ONES[n % 10];
+    }
+
+    // Pad to 9 digits CC LL TT H UU (crore, lakh, thousand, hundred, units)
+    num = ("000000000" + num).slice(-9);
+    const crore = parseInt(num.slice(0, 2), 10);
+    const lakh = parseInt(num.slice(2, 4), 10);
+    const thousand = parseInt(num.slice(4, 6), 10);
+    const hundred = parseInt(num.slice(6, 7), 10);
+    const lastTwo = parseInt(num.slice(7), 10);
+
+    let result = "";
+
+    if (crore) result += twoDigitsToWords(crore) + "Crore ";
+    if (lakh) result += twoDigitsToWords(lakh) + "Lakh ";
+    if (thousand) result += twoDigitsToWords(thousand) + "Thousand ";
+    if (hundred) result += ONES[hundred] + "Hundred ";
+    if (lastTwo) result += (result ? "and " : "") + twoDigitsToWords(lastTwo);
+
+    return result.trim();
 }
 
-// Words to Number - Indian Numbering System
+// ---------- Words → Number (Indian system) ----------
 function wordsToNumber(words) {
-    const wordMap = {
-        // Units
-        'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5,
-        'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10,
-        'eleven': 11, 'twelve': 12, 'thirteen': 13, 'fourteen': 14, 'fifteen': 15,
-        'sixteen': 16, 'seventeen': 17, 'eighteen': 18, 'nineteen': 19,
-        
-        // Tens
-        'twenty': 20, 'thirty': 30, 'forty': 40, 'fifty': 50,
-        'sixty': 60, 'seventy': 70, 'eighty': 80, 'ninety': 90,
-        
-        // Indian scales
-        'hundred': 100, 'thousand': 1000, 'lakh': 100000, 'crore': 10000000
+    if (!words) return "";
+
+    const MAP = {
+        zero: 0,
+        one: 1,
+        two: 2,
+        three: 3,
+        four: 4,
+        five: 5,
+        six: 6,
+        seven: 7,
+        eight: 8,
+        nine: 9,
+        ten: 10,
+        eleven: 11,
+        twelve: 12,
+        thirteen: 13,
+        fourteen: 14,
+        fifteen: 15,
+        sixteen: 16,
+        seventeen: 17,
+        eighteen: 18,
+        nineteen: 19,
+        twenty: 20,
+        thirty: 30,
+        forty: 40,
+        fifty: 50,
+        sixty: 60,
+        seventy: 70,
+        eighty: 80,
+        ninety: 90,
+        hundred: 100,
+        thousand: 1000,
+        lakh: 100000,
+        crore: 10000000
     };
-    
-    words = words.toLowerCase().replace(/ and /g, ' ').replace(/\s+/g, ' ').trim();
-    const wordsArray = words.split(' ');
-    let total = 0, current = 0;
-    
-    for (let word of wordsArray) {
-        if (wordMap[word] !== undefined) {
-            if (wordMap[word] >= 100) {
-                current *= wordMap[word];
-                if (current >= 1000) total += current;
-                current = 0;
-            } else {
-                current += wordMap[word];
-            }
+
+    let cleaned = words
+        .toLowerCase()
+        .replace(/ and /g, " ")
+        .replace(/-/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+
+    if (!cleaned) return "";
+    const tokens = cleaned.split(" ");
+
+    let total = 0;
+    let current = 0;
+
+    for (const token of tokens) {
+        const value = MAP[token];
+        if (value === undefined) {
+            continue; // ignore unknown words instead of crashing
+        }
+
+        if (value < 100) {
+            current += value;
+        } else if (value === 100) {
+            current *= value;
+        } else {
+            current *= value;
+            total += current;
+            current = 0;
         }
     }
-    
+
     total += current;
     return total.toString();
 }
 
-// Real-time event listeners
-document.getElementById('numInput').addEventListener('input', function() {
-    const num = this.value.replace(/\D/g, '');
-    const output = document.getElementById('numOutput');
-    output.textContent = num ? numberToWords(num) : '';
+// ---------- UI Wiring ----------
+const numInput = document.getElementById("numInput");
+const wordInput = document.getElementById("wordInput");
+const numOutput = document.getElementById("numOutput");
+const wordOutput = document.getElementById("wordOutput");
+
+function setResult(el, text) {
+    if (!text) {
+        el.textContent = "Output will appear here…";
+        el.classList.add("result-placeholder");
+    } else {
+        el.textContent = text;
+        el.classList.remove("result-placeholder");
+    }
+}
+
+// initial placeholder
+setResult(numOutput, "");
+setResult(wordOutput, "");
+
+// live behaviour
+numInput.addEventListener("input", () => {
+    const cleaned = numInput.value.replace(/\D/g, "");
+    numInput.value = cleaned;
+    setResult(numOutput, cleaned ? numberToWords(cleaned) : "");
 });
 
-document.getElementById('wordInput').addEventListener('input', function() {
-    const output = document.getElementById('wordOutput');
-    output.textContent = this.value ? wordsToNumber(this.value) : '';
+wordInput.addEventListener("input", () => {
+    const text = wordInput.value;
+    setResult(wordOutput, text ? wordsToNumber(text) : "");
 });
 
-// Test examples
-document.getElementById('numInput').value = '103234';
-document.getElementById('wordInput').value = 'one lakh thirty thousand and thirty four';
+// pre-fill examples for teacher
+numInput.value = "103234";
+setResult(numOutput, numberToWords("103234"));
+
+wordInput.value = "one lakh thirty thousand thirty four";
+setResult(wordOutput, wordsToNumber(wordInput.value));
